@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <thread>
+#include <chrono>
+#include <iomanip>
 #include "lote.hpp"
 #include "proceso.hpp"
 #include "operacion.hpp"
@@ -38,6 +41,33 @@ bool comprobarId(int id, vector<Lote>&listaLotes){ //Se comparara si ya existe u
         }
     }
     return false;//En caso que no se encuentre un id igual, se retorna 'false'
+}
+
+void mostrarInfo(vector<Lote>&listaLotes){
+    int intervalo = 5; // Intervalo en segundos
+    int lotes_pendientes = 10; // Número inicial de lotes pendientes
+    while (true) { // Bucle infinito para imprimir repetidamente
+        // Limpiar la pantalla
+        cout << "\033[2J\033[1;1H";
+
+        // Imprimir toString de todos los lotes
+        for(int i = 0; i < listaLotes.size(); i++) {
+            vector<Proceso>listaTMP = listaLotes[i].getListaProcesos();
+            for(int j = 0; j < listaTMP.size(); j++) {
+                cout<<endl<<"Lote Actual"<<endl;
+                cout<<listaTMP[i].loteActual()<<endl;
+                cout<<"Ejecucion"<<endl;
+                cout<<listaTMP[i].toString()<<endl;
+                cout<<"Terminados"<<endl;
+                cout<<listaTMP[i].terminados()<<"  "<<listaLotes[i].getIdLote();
+                cout<<endl<<endl;
+            }
+        }
+       
+
+        // Esperar el intervalo especificado
+        this_thread::sleep_for(chrono::seconds(intervalo));
+    }
 }
 
 int main(){
@@ -105,8 +135,6 @@ int main(){
             lote = Lote();
         }
     }while(contador != cantidadProcesos);
-
-    for(int i = 0; i < listaLotes.size(); i++){
-        cout<<listaLotes[i].toString()<<endl;
-    }
+    mostrarInfo(listaLotes);
 }
+

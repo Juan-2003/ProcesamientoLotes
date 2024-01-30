@@ -31,6 +31,8 @@ class Proceso{
         int getTT();
         int getTR();
 
+        std::string loteActual();
+        std::string terminados();
         std::string toString();
 };
 #endif

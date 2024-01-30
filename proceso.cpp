@@ -73,6 +73,16 @@ int Proceso::getTT(){
     return TT;
 }
 
+string Proceso::loteActual(){
+    return "ID: " + to_string(id) + "\n"+
+            "TME: "+ to_string(TME)+ "\n";
+}
+
+string Proceso::terminados(){
+    return to_string(id) + " " + operacion.getOperacion() + " = " + 
+            to_string(operacion.getResultado());
+}
+
 string Proceso::toString(){
     return "Nombre: " + nombre+ "\n"+
         "Operacion: "+operacion.toString()+ "\n"+

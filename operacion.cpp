@@ -8,6 +8,8 @@ Operacion::Operacion(int operando1, int operando2, char operador){
     setOperando1(operando1);
     setOperando2(operando2);
     setOperador(operador);
+    setResultado(crearResultado(operando1, operando2, operador));
+
 }
 
 void Operacion::setOperando1(int operando1){
@@ -22,6 +24,10 @@ void Operacion::setOperador(char operador){
     this->operador = operador;
 }
 
+void Operacion::setResultado(int resultado){
+    this->resultado = resultado;
+}
+
 int Operacion::getOperador1(){
     return operando1;
 }
@@ -34,7 +40,32 @@ char Operacion::getOperador(){
     return operador;
 }
 
-string Operacion::toString(){
+int Operacion::getResultado(){
+    return resultado;
+}
+
+string Operacion::getOperacion(){
     return to_string(operando1) +" " + operador +" " + to_string(operando2);
+}
+
+int Operacion::crearResultado(int operando1, int operando2, char operador){
+    int resultado;
+    switch(operador){
+        case '+': resultado = operando1 + operando2;
+                break;
+        case '-': resultado = operando1 - operando2;
+                break;
+        case '*': resultado = operando1 * operando2;
+                break;
+        case '/': resultado = operando1 / operando2;
+                break;
+        case '%': resultado = operando1 % operando2;
+                break;
+    }
+    return resultado;
+}
+
+string Operacion::toString(){
+    return to_string(operando1) +" " + operador +" " + to_string(operando2) +" = "+ to_string(resultado);
 }
 
