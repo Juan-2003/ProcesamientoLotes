@@ -14,6 +14,17 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTME(TT);
     setTME(TR);
 }
+Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
+            int idLote){
+    setNombre(nombre);
+    setOperacion(operacion);
+    setId(id);
+    setTME(TME);
+    this->idLote = idLote;
+    TT = 0;
+    TR = 0;
+}
+
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setNombre(nombre);
     setOperacion(operacion);
@@ -73,21 +84,25 @@ int Proceso::getTT(){
     return TT;
 }
 
+int Proceso::getIdLote(){
+    return idLote;
+}
+
 string Proceso::loteActual(){
     return "ID: " + to_string(id) + "\n"+
             "TME: "+ to_string(TME)+ "\n";
 }
 
 string Proceso::terminados(){
-    return to_string(id) + " " + operacion.getOperacion() + " = " + 
-            to_string(operacion.getResultado());
+    return to_string(id) + "    " + operacion.getOperacion()+ "  "+
+            to_string(operacion.getResultado()) +"      "+ to_string(idLote);
 }
 
 string Proceso::toString(){
-    return "Nombre: " + nombre+ "\n"+
-        "Operacion: "+operacion.toString()+ "\n"+
-        "ID: "+to_string(id)+ "\n"+
-        "TME: "+to_string(TME)+ "\n"+
+    return "Nombre:    " + nombre+ "\n"+
+        "Operacion: "+operacion.getOperacion()+ "\n"+
+        "ID:         "+to_string(id);
+        /*"TME: "+to_string(TME)+ "\n"+
         "TT: "+to_string(TT)+ "\n"+
-        "TR: "+to_string(TR)+ "\n";
+        "TR: "+to_string(TR)+ "\n";*/
 }

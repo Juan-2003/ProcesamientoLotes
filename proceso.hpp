@@ -8,6 +8,7 @@ class Proceso{
         std::string nombre;
         Operacion operacion;
         int id;
+        int idLote;
         int TME;  //Tiempo total estimado
         int TT;   //Tiempo total
         int TR;   //Tiempo restante
@@ -15,6 +16,7 @@ class Proceso{
     public:
         Proceso();
         Proceso(std::string nombre,Operacion, int id, int TME, int TT, int TR);
+        Proceso(std::string nombre,Operacion, int id, int TME, int idLote);
         Proceso(std::string nombre,Operacion, int id, int TME);
 
         void setNombre(std::string);
@@ -30,6 +32,7 @@ class Proceso{
         int getTME();
         int getTT();
         int getTR();
+        int getIdLote();
 
         std::string loteActual();
         std::string terminados();
