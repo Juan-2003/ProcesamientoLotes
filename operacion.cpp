@@ -1,10 +1,11 @@
 #include <iostream>
 #include "operacion.hpp"
+#include <math.h>
 
 using namespace std;
 
 Operacion::Operacion(){}
-Operacion::Operacion(int operando1, int operando2, char operador){
+Operacion::Operacion(float operando1, float operando2, char operador){
     setOperando1(operando1);
     setOperando2(operando2);
     setOperador(operador);
@@ -12,11 +13,11 @@ Operacion::Operacion(int operando1, int operando2, char operador){
 
 }
 
-void Operacion::setOperando1(int operando1){
+void Operacion::setOperando1(float operando1){
     this->operando1 = operando1;
 }
 
-void Operacion::setOperando2(int operando2){
+void Operacion::setOperando2(float operando2){
     this->operando2 = operando2;
 }
 
@@ -24,15 +25,15 @@ void Operacion::setOperador(char operador){
     this->operador = operador;
 }
 
-void Operacion::setResultado(int resultado){
+void Operacion::setResultado(float resultado){
     this->resultado = resultado;
 }
 
-int Operacion::getOperador1(){
+float Operacion::getOperador1(){
     return operando1;
 }
 
-int Operacion::getOperador2(){
+float Operacion::getOperador2(){
     return operando2;
 }
 
@@ -40,7 +41,7 @@ char Operacion::getOperador(){
     return operador;
 }
 
-int Operacion::getResultado(){
+float Operacion::getResultado(){
     return resultado;
 }
 
@@ -48,8 +49,8 @@ string Operacion::getOperacion(){
     return to_string(operando1) +" " + operador +" " + to_string(operando2);
 }
 
-int Operacion::crearResultado(int operando1, int operando2, char operador){
-    int resultado;
+float Operacion::crearResultado(float operando1, float operando2, char operador){
+    float resultado;
     switch(operador){
         case '+': resultado = operando1 + operando2;
                 break;
@@ -59,7 +60,7 @@ int Operacion::crearResultado(int operando1, int operando2, char operador){
                 break;
         case '/': resultado = operando1 / operando2;
                 break;
-        case '%': resultado = operando1 % operando2;
+        case '%': resultado = fmod(operando1,operando2);
                 break;
     }
     return resultado;

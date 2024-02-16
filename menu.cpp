@@ -37,7 +37,30 @@ char Menu::elegirOperador(int opcionOperador){  //Servira para poder elegir el o
     return operador;
 }
 
+void Menu::fin(vector<Proceso>& terminados){
+    contadorGlobal--;
+    system("cls");
+    cout << endl << "       LOTE ACTUAL" << endl;
+    cout<<endl<<endl;
+    cout << "       EJECUCION" << endl;
+    cout<<endl<<endl;
+    cout<<"                Contador: "<<contadorGlobal;
+    cout<<"\n\n       TERMINADO"<<endl;
+    cout<<"ID        OPE                RES        NL"<<endl;
+    for(int z = 0; z < terminados.size();z++){
+                cout<<terminados[z].terminados()<<endl;
+                if((z+1) % 4 == 0){
+                    cout<<"------------------------------------------------------------------"<<endl;
+                }
+            }
+    cout<<"Presione enter para continuar.....";
+    cin.get();
+    system("cls");
+    
+}
+
 void Menu::mostrarInfo(vector<Lote>& listaLotes) {
+    int lotesPendientes = listaLotes.size();
     int TME_cont;
     vector<int> TR_cont;
     vector<int> TT_cont;
@@ -49,6 +72,10 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
     for (int i = 0; i < listaLotes.size(); i++) {
         listaActual = listaLotes[i].getListaProcesos();
         for (int j = 0; listaActual.size() != 0; j++) {
+            system("cls");
+            if(lotesPendientes > 1){
+                cout<<lotesPendientes;
+            }
             cout << endl << "       LOTE ACTUAL" << endl;
             TME_cont = listaActual[j].getTME();
             TR_cont.push_back(TME_cont);
@@ -62,7 +89,7 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             cout<<listaEjecucion[0].toString() << endl;
 
             // Bucle para decrementar TR y mostrar su valor
-            while (TR_cont[j] > 0) {
+            while (TR_cont[j] >= 0) {
                 cout << "\rTME: " << TME_cont << " TR: " << TR_cont[j] << " TT: " << TT_cont[j] << " Contador: "<< contadorGlobal<< flush;
                 Sleep(1000);
                 --TR_cont[j];
@@ -72,7 +99,7 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             listaTerminados.push_back(listaEjecucion[0]);
             listaEjecucion.pop_back();
             cout<<"\n\n       TERMINADO"<<endl;
-            cout<<"ID    OPE    RES    NL"<<endl;
+            cout<<"ID        OPE                RES        NL"<<endl;
             for(int z=0;z<listaTerminados.size();z++){
                 cout<<listaTerminados[z].terminados()<<endl;
                 if((z+1) % 4 == 0){
@@ -81,18 +108,20 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             }
             Sleep(5000);
 
-            system("cls");
         }
         TR_cont.clear();
         TT_cont.clear();
+        lotesPendientes--;
     }
+    fin(listaTerminados);
 }
 
 void Menu::iniciarMenu(){
     vector<Lote>listaLotes;
     vector<Proceso>listaProcesos;
     set<int>listaId;
-    int id, opcionOperador, op1, op2, TME;
+    int id, opcionOperador,TME; 
+    float op1, op2;
     int procesosXlote = 4, lotesTotales, contador = 0;
     float cantidadProcesos;
     bool verificarId = true;
@@ -131,10 +160,12 @@ void Menu::iniciarMenu(){
                 do{
                     cout<<"Operando2: ";
                     cin>>op2;
-                }while(operador == '/' && op2 == 0);//Esto evita que el usuario quiera dividir entre 0
+                }while((operador == '/' && op2 == 0) || (operador== '%' && op2 == 0));//Esto evita que el usuario quiera dividir entre 0
 
-                cout<<"TME: ";
-                cin>>TME;
+                do{
+                    cout<<"TME: ";
+                    cin>>TME;
+                }while(TME <= 0);
                 cout<<endl<<endl;
                 cin.ignore();
 
