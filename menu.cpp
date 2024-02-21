@@ -76,6 +76,8 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             if(lotesPendientes > 1){
                 cout<<lotesPendientes;
             }
+
+            // -------------  LOTE ACTUAL -----------------------
             cout << endl << "       LOTE ACTUAL" << endl;
             TME_cont = listaActual[j].getTME();
             TR_cont.push_back(TME_cont);
@@ -85,17 +87,30 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             }
             listaEjecucion.push_back(listaActual[0]);
             listaActual.erase(listaActual.begin()); //Se esta eliminando el primer elemento de la lista
+            
+            
+            // ---------------- EJECUCION -----------------------------
             cout << "       EJECUCION" << endl;
             cout<<listaEjecucion[0].toString() << endl;
 
             // Bucle para decrementar TR y mostrar su valor
+            int tecla;
             while (TR_cont[j] >= 0) {
                 cout << "\rTME: " << TME_cont << " TR: " << TR_cont[j] << " TT: " << TT_cont[j] << " Contador: "<< contadorGlobal<< flush;
                 Sleep(1000);
                 --TR_cont[j];
                 ++TT_cont[j];// Incrementa TT
                 contadorGlobal++;
+
+                if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
+                    tecla = _getch(); //Lo que se tecleo lo guardo en tecla
+                    comandos(listaEjecucion, tecla); //Llamo la lista de comandos para realizar acciones necesarias
+                    if(tecla == 'w'){ //Se interrumpe el programa, asi que se rompe el bucle actual
+                        break;
+                    }
+                }
             }
+
             listaTerminados.push_back(listaEjecucion[0]);
             listaEjecucion.pop_back();
             cout<<"\n\n       TERMINADO"<<endl;
@@ -114,6 +129,21 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
         lotesPendientes--;
     }
     fin(listaTerminados);
+}
+
+void Menu::comandos(vector<Proceso>&listaEjecucion,char tecla){
+    switch(tecla){
+        case 'w': //Interrupcion
+                    listaEjecucion[0].getOperacion().setResultado(0.0);//El resultado se modifica, debe aparecer ERROR o algo asi, solo queda eso.
+            break;
+        case 'p': //Pausa
+                    do{
+                        if(_kbhit()){
+                            tecla = _getch();//Se guarda la tecla seleccionada
+                        }
+                    }while(tecla != 'c');//El programa seguira pausado mientras no se haga click en 'c'
+            break;
+    } 
 }
 
 void Menu::iniciarMenu(){
@@ -167,7 +197,7 @@ void Menu::iniciarMenu(){
                     cin>>TME;
                 }while(TME <= 0);
                 cout<<endl<<endl;
-                cin.ignore();
+                cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 
                 Operacion operacion = Operacion(op1, op2, operador); //Se crea un objeto tipo 'Operacion'
                 Proceso proceso = Proceso(nombre, operacion, id, TME, i+1);//Se crea un objeto tipo 'Proceso'
@@ -182,5 +212,6 @@ void Menu::iniciarMenu(){
             lote = Lote();
         }
     }while(contador != cantidadProcesos);
+    cin.ignore();
     mostrarInfo(listaLotes);
 }

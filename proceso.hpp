@@ -27,7 +27,7 @@ class Proceso{
         void setTR(int);
 
         std::string getNombre();
-        Operacion getOperacion();
+        Operacion& getOperacion();
         int getId();
         int getTME();
         int getTT();
