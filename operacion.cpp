@@ -1,5 +1,7 @@
+#ifndef OPERACION_CPP_INCLUDED
+#define OPERACION_CPP_INCLUDED
 #include <iostream>
-#include "operacion.hpp"
+#include "operacion.h"
 #include <math.h>
 
 using namespace std;
@@ -70,3 +72,5 @@ string Operacion::toString(){
     return to_string(operando1) +" " + operador +" " + to_string(operando2) +" = "+ to_string(resultado);
 }
 
+
+#endif // OPERACION_CPP_INCLUDED

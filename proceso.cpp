@@ -1,6 +1,6 @@
 #include <iostream>
-#include "proceso.hpp"
-#include "operacion.hpp"
+#include "proceso.h"
+#include "operacion.h"
 
 using namespace std;
 
@@ -11,8 +11,8 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setOperacion(operacion);
     setId(id);
     setTME(TME);
-    setTME(TT);
-    setTME(TR);
+    setTT(TT);
+    setTR(TME);
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int idLote){
@@ -21,8 +21,8 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setId(id);
     setTME(TME);
     this->idLote = idLote;
-    TT = 0;
-    TR = 0;
+    setTT(TT);
+    setTR(TME);
 }
 
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
@@ -30,8 +30,8 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setOperacion(operacion);
     setId(id);
     setTME(TME);
-    TT = 0;
-    TR = 0;
+    setTT(TT);
+    setTR(TME);
 }
 
 //SETTERS
