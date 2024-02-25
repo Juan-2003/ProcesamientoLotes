@@ -108,23 +108,19 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
                 if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
                     tecla = _getch(); //Lo que se tecleo lo guardo en tecla
                     comandos(listaEjecucion, listaActual, tecla);
-                    if(tecla == 'w'){ //Se interrumpe el programa, asi que se rompe el bucle actual
-                        break;
-                    }
-                    else if(tecla =='e'){
-                        bandera=true;
+                    /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
+                        'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores 
+                        del proceso, se toma la ultima posicion de la listaActual
+                    */
+                    if(tecla == 'w' || tecla == 'e'){
+                        listaActual[listaActual.size()-1].setTR(actualTR);
+                        listaActual[listaActual.size()-1].setTT(TT_cont);
+                        bandera = (tecla == 'e');
                         break;
                     }
                 }
             }
 
-            /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
-                'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores 
-                del proceso, se toma la ultima posicion de la listaActual
-            */
-            listaActual[listaActual.size()-1].setTT(TT_cont);
-            listaActual[listaActual.size()-1].setTR(actualTR);
-            
             if(bandera){
                 j = -1;
                 continue;
