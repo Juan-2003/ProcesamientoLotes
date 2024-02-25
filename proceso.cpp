@@ -1,10 +1,14 @@
 #include <iostream>
-#include "proceso.h"
-#include "operacion.h"
+#include "proceso.hpp"
+#include "operacion.hpp"
 
 using namespace std;
 
-Proceso::Proceso(){}
+Proceso::Proceso(){
+    setTME(0);
+    setTT(0);
+    setTR(0);
+}
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int TT, int TR){
     setNombre(nombre);
@@ -64,7 +68,7 @@ string Proceso::getNombre(){
     return nombre;
 }
 
-Operacion Proceso::getOperacion(){
+Operacion& Proceso::getOperacion(){
     return operacion;
 }
 
@@ -90,12 +94,12 @@ int Proceso::getIdLote(){
 
 string Proceso::loteActual(){
     return "ID: " + to_string(id) + "\n"+
-            "TME: "+ to_string(TME)+ "\n";
+            "TME: "+ to_string(TME)+ "   TT: "+to_string(TT)+ "\n";
 }
 
 string Proceso::terminados(){
     return to_string(id) + "    " + operacion.getOperacion()+ "  "+
-            to_string(operacion.getResultado()) +"      "+ to_string(idLote);
+            operacion.getResultado() +"      "+ to_string(idLote);
 }
 
 string Proceso::toString(){

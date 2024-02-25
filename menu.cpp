@@ -11,10 +11,10 @@
 #include <iomanip>
 #include <cstdlib>
 #include <set>
-#include "lote.h"
-#include "proceso.h"
-#include "operacion.h"
-#include "menu.h"
+#include "lote.hpp"
+#include "proceso.hpp"
+#include "operacion.hpp"
+#include "menu.hpp"
 
 using namespace std;
 
@@ -63,27 +63,25 @@ void Menu::fin(vector<Proceso>& terminados){
 void Menu::mostrarInfo(vector<Lote>& listaLotes) {
     int lotesPendientes = listaLotes.size();
     int TME_cont;
-    vector<int> TR_cont;
-    vector<int> TT_cont;
+    int TT_cont;
+    int actualTR;
+
 
     vector<Proceso> listaActual;
     vector<Proceso> listaEjecucion;
     vector<Proceso> listaTerminados;
 
     for (int i = 0; i < listaLotes.size(); i++) {
-        listaActual = listaLotes[i].getListaProcesos();
+        listaActual = listaLotes[i].getListaProcesos();//Se toma el lote a trabajar
         for (int j = 0; listaActual.size() != 0; j++) {
             system("cls");
-
-            if(lotesPendientes > 1){
-                cout<<lotesPendientes;
-            }
+            cout<<"LOTES PENDIENTES "<<lotesPendientes<<endl;
 
             // -------------  LOTE ACTUAL -----------------------
             cout << endl << "       LOTE ACTUAL" << endl;
-            TME_cont = listaActual[j].getTME();
-            //TR_cont.push_back(TME_cont);
-            TT_cont.push_back(0);  // Inicializar TT_cont con 0
+            TME_cont = listaActual[j].getTME();//Se toma TME del proceso actual
+            TT_cont = listaActual[j].getTT();//SE TOMA TT del proceso actual
+
             for(int x=0;x<listaActual.size();x++){
                 cout<<listaActual[x].loteActual()<<endl;
             }
@@ -98,13 +96,14 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             // Bucle para decrementar TR y mostrar su valor
             char tecla;
             bool bandera= false;
-            int actualTR = listaEjecucion[0].getTR();
+            actualTR = listaEjecucion[0].getTR();
             while (actualTR >=0) {
-                cout << "\rTME: " << TME_cont << " TR: " << actualTR << " TT: " << TT_cont[j] << " Contador: "<< contadorGlobal<< flush;
+                cout << "\rTME: " << TME_cont << " TR: " << actualTR << " TT: " << TT_cont << " Contador: "<< contadorGlobal<< flush;
                 Sleep(1000);
                 --actualTR;
-                ++TT_cont[j];// Incrementa TT
+                ++TT_cont;// Incrementa TT
                 contadorGlobal++;
+                
 
                 if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
                     tecla = _getch(); //Lo que se tecleo lo guardo en tecla
@@ -118,8 +117,16 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
                     }
                 }
             }
+
+            /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
+                'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores 
+                del proceso, se toma la ultima posicion de la listaActual
+            */
+            listaActual[listaActual.size()-1].setTT(TT_cont);
+            listaActual[listaActual.size()-1].setTR(actualTR);
+            
             if(bandera){
-                j=-1;
+                j = -1;
                 continue;
             }
 
@@ -133,11 +140,9 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
                     cout<<"--------------------------"<<endl;
                 }
             }
-            Sleep(5000);
+            Sleep(1000);
 
         }
-        TR_cont.clear();
-        TT_cont.clear();
         lotesPendientes--;
     }
     fin(listaTerminados);
@@ -147,7 +152,7 @@ void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaActua
     //cout<<
     switch(tecla) {
         case 'w': //Interrupcion
-            listaEjecucion[0].getOperacion().setResultado(0.0); //El resultado se modifica, debe aparecer ERROR o algo asi, solo queda eso.
+            listaEjecucion[0].getOperacion().setResultado("ERROR"); //El resultado se modifica, debe aparecer ERROR o algo asi, solo queda eso.
             break;
         case 'p': //Pausa
             char otraTecla;
@@ -158,7 +163,6 @@ void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaActua
             } while(otraTecla != 'c'); //El programa seguira pausado mientras no se haga click en 'c'
             break;
         case 'e':
-            //system("cls");
             listaActual.insert(listaActual.end(),listaEjecucion[0]);
             listaEjecucion.pop_back();
             break;

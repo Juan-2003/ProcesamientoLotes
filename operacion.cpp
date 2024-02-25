@@ -1,7 +1,7 @@
 #ifndef OPERACION_CPP_INCLUDED
 #define OPERACION_CPP_INCLUDED
 #include <iostream>
-#include "operacion.h"
+#include "operacion.hpp"
 #include <math.h>
 
 using namespace std;
@@ -27,7 +27,7 @@ void Operacion::setOperador(char operador){
     this->operador = operador;
 }
 
-void Operacion::setResultado(float resultado){
+void Operacion::setResultado(string resultado){
     this->resultado = resultado;
 }
 
@@ -43,7 +43,7 @@ char Operacion::getOperador(){
     return operador;
 }
 
-float Operacion::getResultado(){
+string Operacion::getResultado(){
     return resultado;
 }
 
@@ -51,25 +51,25 @@ string Operacion::getOperacion(){
     return to_string(operando1) +" " + operador +" " + to_string(operando2);
 }
 
-float Operacion::crearResultado(float operando1, float operando2, char operador){
-    float resultado;
+string Operacion::crearResultado(float operando1, float operando2, char operador){
+    string resultado;
     switch(operador){
-        case '+': resultado = operando1 + operando2;
+        case '+': resultado = to_string(operando1 + operando2);
                 break;
-        case '-': resultado = operando1 - operando2;
+        case '-': resultado = to_string(operando1 - operando2);
                 break;
-        case '*': resultado = operando1 * operando2;
+        case '*': resultado = to_string(operando1 * operando2);
                 break;
-        case '/': resultado = operando1 / operando2;
+        case '/': resultado = to_string(operando1 / operando2);
                 break;
-        case '%': resultado = fmod(operando1,operando2);
+        case '%': resultado = to_string(fmod(operando1,operando2));
                 break;
     }
     return resultado;
 }
 
 string Operacion::toString(){
-    return to_string(operando1) +" " + operador +" " + to_string(operando2) +" = "+ to_string(resultado);
+    return to_string(operando1) +" " + operador +" " + to_string(operando2) +" = "+ resultado;
 }
 
 

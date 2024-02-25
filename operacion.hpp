@@ -8,7 +8,7 @@ class Operacion{
         float operando1;
         float operando2;
         char operador;
-        float resultado;
+        std::string resultado;
     public:
         Operacion();
         Operacion(float, float, char);
@@ -16,15 +16,15 @@ class Operacion{
         void setOperando1(float);
         void setOperando2(float);
         void setOperador(char);
-        void setResultado(float);
+        void setResultado(std::string);
 
         float getOperador1();
         float getOperador2();
         char getOperador();
-        float getResultado();
+        std::string getResultado();
         std::string getOperacion();
 
-        float crearResultado(float, float, char);
+        std::string crearResultado(float, float, char);
         std::string toString();
 };
 
