@@ -11,6 +11,7 @@ class Menu{
         static char elegirOperador(int opcionOperador);
         static void mostrarInfo(std::vector<Lote>& listaLotes);
         static void fin(std::vector<Proceso>& terminados);
+        static void comandos(std::vector<Proceso>&listaEjecucion, char tecla);
     public:
         static void iniciarMenu();
 };

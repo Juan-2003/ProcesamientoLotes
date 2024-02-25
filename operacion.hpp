@@ -9,6 +9,7 @@ class Operacion{
         float operando2;
         char operador;
         float resultado;
+
     public:
         Operacion();
         Operacion(float, float, char);

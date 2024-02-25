@@ -64,7 +64,7 @@ string Proceso::getNombre(){
     return nombre;
 }
 
-Operacion Proceso::getOperacion(){
+Operacion& Proceso::getOperacion(){
     return operacion;
 }
 
