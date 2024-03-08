@@ -12,6 +12,7 @@ class Proceso{
         int TME;  //Tiempo total estimado
         int TT;   //Tiempo total
         int TR;   //Tiempo restante
+        int TTbloqueado; //Tiempo total en Bloqueados
 
     public:
         Proceso();
@@ -25,6 +26,7 @@ class Proceso{
         void setTME(int);
         void setTT(int);
         void setTR(int);
+        void setTTbloqueado(int);
 
         std::string getNombre();
         Operacion& getOperacion();
@@ -33,9 +35,11 @@ class Proceso{
         int getTT();
         int getTR();
         int getIdLote();
+        int getTTbloqueado();
 
         std::string loteActual();
         std::string terminados();
+        std::string bloqueado();
         std::string toString();
 };
 #endif

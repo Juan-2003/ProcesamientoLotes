@@ -20,6 +20,6 @@ class Lote{
         std::vector<Proceso>getListaProcesos();//Devuelve la lista de procesos de cada Lote
 
         std::string toString();
-        std::string terminados();
+        //std::string terminados();
 };
 #endif

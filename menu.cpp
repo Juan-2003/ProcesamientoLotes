@@ -70,16 +70,18 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
     vector<Proceso> listaActual;
     vector<Proceso> listaEjecucion;
     vector<Proceso> listaTerminados;
+    vector<Proceso> listaBloqueados;
 
     for (int i = 0; i < listaLotes.size(); i++) {
         listaActual = listaLotes[i].getListaProcesos();//Se toma el lote a trabajar
         for (int j = 0; listaActual.size() != 0; j++) {
             system("cls");
+            cout<<"J: "<<j<<endl;
             cout<<"LOTES PENDIENTES "<<lotesPendientes<<endl;
 
             // -------------  LOTE ACTUAL -----------------------
             cout << endl << "       LOTE ACTUAL" << endl;
-            TME_cont = listaActual[j].getTME();//Se toma TME del proceso actual
+            TME_cont = listaActual[0].getTME();//Se toma TME del proceso actual
             TT_cont = listaActual[j].getTT();//SE TOMA TT del proceso actual
 
             for(int x=0;x<listaActual.size();x++){
@@ -107,27 +109,42 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
 
                 if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
                     tecla = _getch(); //Lo que se tecleo lo guardo en tecla
-                    comandos(listaEjecucion, listaActual, tecla);
+                    comandos(listaEjecucion, listaBloqueados, tecla);
                     /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
                         'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores 
                         del proceso, se toma la ultima posicion de la listaActual
                     */
-                    if(tecla == 'w' || tecla == 'e'){
-                        listaActual[listaActual.size()-1].setTR(actualTR);
-                        listaActual[listaActual.size()-1].setTT(TT_cont);
-                        bandera = (tecla == 'e');
+                    if(tecla == 'e'){
+                        /*listaActual[listaActual.size()-1].setTR(actualTR);
+                        listaActual[listaActual.size()-1].setTT(TT_cont);*/
+                        listaBloqueados[0].setTR(actualTR);
+                        listaBloqueados[0].setTT(TT_cont);
+                        bandera = true;
+                        break;
+                    }
+                    else if(tecla == 'w'){
+                        listaEjecucion[0].setTR(actualTR);
+                        listaEjecucion[0].setTT(actualTR);
                         break;
                     }
                 }
             }
 
-            if(bandera){
-                j = -1;
-                continue;
+            cout <<endl<< "       BLOQUEADOS" << endl;
+            for(int i = 0; i < listaBloqueados.size(); i++){
+                listaBloqueados[i].setTTbloqueado(listaBloqueados[i].getTTbloqueado()+1);
+            }
+            cout<<"ID"<<"   "<<"TT"<<endl;
+            for(int i = 0; i < listaBloqueados.size(); i++){
+                cout<<listaBloqueados[i].bloqueado()<<endl;
             }
 
-            listaTerminados.push_back(listaEjecucion[0]);
-            listaEjecucion.pop_back();
+
+            if(!bandera){//Si no se ha presionado la tecla 'e', se quitara lo que hay en la lista de ejecucion
+                listaEjecucion.pop_back();
+                listaTerminados.push_back(listaEjecucion[0]);
+            }
+
             cout<<"\n\n       TERMINADO"<<endl;
             cout<<"ID        OPE                RES        NL"<<endl;
             for(int z=0;z<listaTerminados.size();z++){
@@ -136,6 +153,7 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
                     cout<<"--------------------------"<<endl;
                 }
             }
+            system("PAUSE");
             Sleep(1000);
 
         }
@@ -144,7 +162,7 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
     fin(listaTerminados);
 }
 
-void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaActual, char tecla) {
+void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaBloqueados, char tecla) {
     //cout<<
     switch(tecla) {
         case 'w': //Interrupcion
@@ -159,7 +177,7 @@ void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaActua
             } while(otraTecla != 'c'); //El programa seguira pausado mientras no se haga click en 'c'
             break;
         case 'e':
-            listaActual.insert(listaActual.end(),listaEjecucion[0]);
+            listaBloqueados.insert(listaBloqueados.end(),listaEjecucion[0]);
             listaEjecucion.pop_back();
             break;
     }

@@ -8,6 +8,7 @@ Proceso::Proceso(){
     setTME(0);
     setTT(0);
     setTR(0);
+    setTTbloqueado(0);
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int TT, int TR){
@@ -17,6 +18,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTME(TME);
     setTT(TT);
     setTR(TME);
+    setTTbloqueado(0);
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int idLote){
@@ -27,6 +29,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     this->idLote = idLote;
     setTT(TT);
     setTR(TME);
+    setTTbloqueado(0);
 }
 
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
@@ -63,6 +66,10 @@ void Proceso::setTR(int TR){
     this->TR = TR;
 }
 
+void Proceso::setTTbloqueado(int TTbloqueado){
+    this->TTbloqueado = TTbloqueado;
+}
+
 //GETTERS
 string Proceso::getNombre(){
     return nombre;
@@ -92,6 +99,10 @@ int Proceso::getIdLote(){
     return idLote;
 }
 
+int Proceso::getTTbloqueado(){
+    return TTbloqueado;
+}
+
 string Proceso::loteActual(){
     return "ID: " + to_string(id) + "\n"+
             "TME: "+ to_string(TME)+ "   TT: "+to_string(TT)+ "\n";
@@ -100,6 +111,10 @@ string Proceso::loteActual(){
 string Proceso::terminados(){
     return to_string(id) + "    " + operacion.getOperacion()+ "  "+
             operacion.getResultado() +"      "+ to_string(idLote);
+}
+
+string Proceso::bloqueado(){
+return to_string(id) + "    " + to_string(TTbloqueado);
 }
 
 string Proceso::toString(){
