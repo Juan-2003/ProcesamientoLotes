@@ -9,6 +9,7 @@
 class Menu{
     private:
         static char elegirOperador(int opcionOperador);
+        static void prueba(std::vector<Proceso>&listaBloqueados);
         static void mostrarInfo(std::vector<Lote>& listaLotes);
         static void fin(std::vector<Proceso>& terminados);
         static void comandos(std::vector<Proceso>& listaEjecucion, std::vector<Proceso>& listaActual, char tecla);

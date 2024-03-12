@@ -60,6 +60,17 @@ void Menu::fin(vector<Proceso>& terminados){
 
 }
 
+void Menu::prueba(vector<Proceso>&listaBloqueados){
+    cout<<endl<<"BLOQUEADOS"<<endl;
+    for(int i = 0; i < listaBloqueados.size(); i++){
+        listaBloqueados[i].setId(listaBloqueados[i].getId()+1);
+    }
+    for(int i = 0; i < listaBloqueados.size(); i++){
+        cout<<listaBloqueados[i].bloqueado()<<endl;
+    }
+    Sleep(5000);
+}
+
 void Menu::mostrarInfo(vector<Lote>& listaLotes) {
     int lotesPendientes = listaLotes.size();
     int TME_cont;
@@ -100,11 +111,12 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
             bool bandera= false;
             actualTR = listaEjecucion[0].getTR();
             while (actualTR >=0) {
-                cout << "\rTME: " << TME_cont << " TR: " << actualTR << " TT: " << TT_cont << " Contador: "<< contadorGlobal<< flush;
+                cout << "\rTME: " << TME_cont << " TR: " << actualTR << " TT: " << TT_cont << " Contador: "<< contadorGlobal << flush;
                 Sleep(1000);
                 --actualTR;
                 ++TT_cont;// Incrementa TT
                 contadorGlobal++;
+
                 
 
                 if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
@@ -128,11 +140,15 @@ void Menu::mostrarInfo(vector<Lote>& listaLotes) {
                         break;
                     }
                 }
+                
             }
 
             cout <<endl<< "       BLOQUEADOS" << endl;
             for(int i = 0; i < listaBloqueados.size(); i++){
                 listaBloqueados[i].setTTbloqueado(listaBloqueados[i].getTTbloqueado()+1);
+                if(listaBloqueados[i].getTTbloqueado() == 8){
+                    listaActual.push_back(listaBloqueados[i]);
+                }
             }
             cout<<"ID"<<"   "<<"TT"<<endl;
             for(int i = 0; i < listaBloqueados.size(); i++){
