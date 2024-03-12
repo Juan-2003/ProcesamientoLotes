@@ -1,7 +1,7 @@
 #include <iostream>
-#include "lote.hpp"
-#include "operacion.hpp"
-#include "proceso.hpp"
+#include "lote.h"
+#include "operacion.h"
+#include "proceso.h"
 
 using namespace std;
 
