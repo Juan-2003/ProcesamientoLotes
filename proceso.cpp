@@ -9,6 +9,8 @@ Proceso::Proceso(){
     setTT(0);
     setTR(0);
     setTTbloqueado(0);
+    setTEspera(0);
+    
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int TT, int TR){
@@ -19,6 +21,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTT(TT);
     setTR(TME);
     setTTbloqueado(0);
+    setTEspera(0);
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int idLote){
@@ -27,9 +30,10 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setId(id);
     setTME(TME);
     this->idLote = idLote;
-    setTT(TT);
+    setTT(0);
     setTR(TME);
     setTTbloqueado(0);
+    setTEspera(0);
 }
 
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
@@ -37,8 +41,9 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setOperacion(operacion);
     setId(id);
     setTME(TME);
-    setTT(TT);
+    setTT(0);
     setTR(TME);
+    setTEspera(0);
 }
 
 //SETTERS
@@ -68,6 +73,30 @@ void Proceso::setTR(int TR){
 
 void Proceso::setTTbloqueado(int TTbloqueado){
     this->TTbloqueado = TTbloqueado;
+}
+
+void Proceso::setTLL(int TLL){
+    this->TLL = TLL;
+}
+
+void Proceso::setTFinalizacion(int TFinalizacion){
+    this->TFinalizacion = TFinalizacion;
+}
+
+void Proceso::setTServicio(int TServicio){
+    this->TServicio = TServicio;
+}
+
+void Proceso::setTEspera(int TEspera){
+    this->TEspera = TEspera;
+}
+
+void Proceso::setTRetorno(int TRetorno){
+    this->TRetorno = TRetorno;
+}
+
+void Proceso::setTRespuesta(int TRespuesta){
+    this->TRespuesta = TRespuesta;
 }
 
 //GETTERS
@@ -103,6 +132,31 @@ int Proceso::getTTbloqueado(){
     return TTbloqueado;
 }
 
+int Proceso::getTLL(){
+    return TLL;
+}
+
+int Proceso::getTFinalizacion(){
+    return TFinalizacion;
+}
+
+int Proceso::getTServicio(){
+    return TServicio;
+}
+
+int Proceso::getTEspera(){
+    return TEspera;
+}
+
+int Proceso::getTRetorno(){
+    return TRetorno;
+}
+
+int Proceso::getTRespuesta(){
+    return TRespuesta;
+}
+
+
 string Proceso::loteActual(){
     return "ID: " + to_string(id) + "\n"+
             "TME: "+ to_string(TME)+ "   TT: "+to_string(TT)+ "\n";
@@ -113,15 +167,25 @@ string Proceso::terminados(){
             operacion.getResultado() +"      "+ to_string(idLote);
 }
 
+string Proceso::ejecucion(){
+    return "Operacion: "+operacion.getOperacion()+ "\n"+
+        "ID:         "+to_string(id);
+}
+
 string Proceso::bloqueado(){
 return to_string(id) + "    " + to_string(TTbloqueado);
 }
 
+
 string Proceso::toString(){
-    return "Nombre:    " + nombre+ "\n"+
-        "Operacion: "+operacion.getOperacion()+ "\n"+
-        "ID:         "+to_string(id);
-        /*"TME: "+to_string(TME)+ "\n"+
-        "TT: "+to_string(TT)+ "\n"+
-        "TR: "+to_string(TR)+ "\n";*/
+    return to_string(id)+ "  "+
+        operacion.getOperacion()+"     "+
+        operacion.getResultado()+"     "+
+        to_string(TME)+"        "+
+        to_string(TLL)+"          "+
+        to_string(TFinalizacion)+"              "+
+        to_string(TServicio)+"            "+
+        to_string(TEspera)+"        "+
+        to_string(TRetorno)+"        "+
+        to_string(TRespuesta);
 }

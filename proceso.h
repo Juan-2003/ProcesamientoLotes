@@ -15,6 +15,12 @@ class Proceso{
         int TT;   //Tiempo total
         int TR;   //Tiempo restante
         int TTbloqueado; //Tiempo total en Bloqueados
+        int TLL; //Tiempo de llegada
+        int TFinalizacion;//
+        int TServicio;
+        int TEspera;
+        int TRetorno;
+        int TRespuesta;
 
     public:
         Proceso();
@@ -29,6 +35,12 @@ class Proceso{
         void setTT(int);
         void setTR(int);
         void setTTbloqueado(int);
+        void setTLL(int);
+        void setTFinalizacion(int);//
+        void setTServicio(int);
+        void setTEspera(int);
+        void setTRetorno(int);
+        void setTRespuesta(int);
 
         std::string getNombre();
         Operacion& getOperacion();
@@ -38,9 +50,16 @@ class Proceso{
         int getTR();
         int getIdLote();
         int getTTbloqueado();
+        int getTLL();
+        int getTFinalizacion();
+        int getTServicio();
+        int getTEspera();
+        int getTRetorno();
+        int getTRespuesta();
 
         std::string loteActual();
         std::string terminados();
+        std::string ejecucion();
         std::string bloqueado();
         std::string toString();
 };
