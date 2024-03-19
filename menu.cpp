@@ -76,13 +76,13 @@ void Menu::fin(vector<Proceso>& terminados){
         listaActual.assign(listaListos.begin(),listaListos.end());
         listaListos.erase(listaListos.begin(),listaListos.end());
     }
-    
+
     cout<<"LISTA ACTUAL:  "<<listaActual.size()<<endl;
     for(Proceso& proceso: listaActual){
         proceso.setTLL(0);
     }
-    
-    
+
+
 
         for (int j = 0; listaActual.size() != 0; j++) {
             system("cls");
@@ -125,7 +125,7 @@ void Menu::fin(vector<Proceso>& terminados){
                     /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
                         'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores
                         del proceso, se toma la ultima posicion de la listaActual
-                    
+
                     if(tecla == 'e'){
                         listaBloqueados[0].setTR(actualTR);
                         listaBloqueados[0].setTT(TT_cont);
@@ -207,7 +207,7 @@ void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaBloqu
             } while(otraTecla != 'c'); //El programa seguira pausado mientras no se haga click en 'c'
             break;
         case 'e':
-        
+
             listaBloqueados.insert(listaBloqueados.end(),listaEjecucion[0]);
             cout<<endl<<"LISTA BLOQUEADOS: "<<endl;
             for(int i = 0; i < listaBloqueados.size(); i++){
@@ -235,9 +235,9 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
         jala1=false;
     }
 
-    for(Proceso& proceso: listaActual){//El tiempo de llegada se establece en 0 para todos los procesos
+    /*for(Proceso& proceso: listaActual){//El tiempo de llegada se establece en 0 para todos los procesos
         proceso.setTLL(0);
-    }
+    }*/
 
 
     for (int j = 0; listaActual.size() != 0; j++) {
@@ -252,7 +252,7 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
         for(int x=0;x<listaActual.size();x++){
             cout<<listaActual[x].loteActual()<<endl;
         }
-    
+
         if(listaEjecucion.empty()){
             listaEjecucion.push_back(listaActual[0]);
             listaActual.erase(listaActual.begin()); //Se esta eliminando el primer elemento de la lista
@@ -285,7 +285,7 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
                 /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
                     'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores
                     del proceso, se toma la ultima posicion de la listaActual*/
-                
+
                 if(tecla == 'e'){
                     listaBloqueados[listaBloqueados.size() - 1].setTR(actualTR);
                     listaBloqueados[listaBloqueados.size() - 1].setTT(TT_cont);
@@ -294,6 +294,7 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
                     break;
                 }
                 else if(tecla == 'w'){
+                    listaListos[0].setTLL(contadorGlobal);
                     listaEjecucion[0].setTR(actualTR);
                     listaEjecucion[0].setTT(actualTR);
                     for(int i = 0; i < listaActual.size(); i++){
@@ -336,11 +337,11 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
             listaEjecucion[0].setTFinalizacion(contadorGlobal);
             listaEjecucion[0].setTRetorno(listaEjecucion[0].getTFinalizacion() - listaEjecucion[0].getTLL());
             listaEjecucion[0].setTServicio(listaEjecucion[0].getTME());
-            //listaEjecucion[0].setTEspera(listaEjecucion[0].getTRetorno() - listaEjecucion[0].getTServicio());
+            listaEjecucion[0].setTEspera(listaEjecucion[0].getTRetorno() - listaEjecucion[0].getTServicio());
             listaTerminados.push_back(listaEjecucion[0]);
             listaEjecucion.pop_back();
             listaListos[0].setTLL(contadorGlobal);
-            if(listaListos.size() > 0){//Cuando se saque a un proceso de listaEjecucion, se aÃ±adira uno nuevo a la lista actual siempre y cuando lista listos aun tenga procesos
+            if(listaListos.size() > 0){//Cuando se saque a un proceso de listaEjecucion, se añadira uno nuevo a la lista actual siempre y cuando lista listos aun tenga procesos
                 listaActual.push_back(listaListos[0]);
                 listaListos.pop_back();
             }
@@ -360,7 +361,7 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
     }
     if(listaActual.size() == 0){//Cuando la lista actual este vacia, se mostrara la informacion correspondiente
         tablaInformacion(listaTerminados);
-    }else{//Mientras que el tamaÃ±o de la lista actual sea mayor que 0, la funcion se llamara asi misma para actualizar lo que se ve en pantalla
+    }else{//Mientras que el tamaño de la lista actual sea mayor que 0, la funcion se llamara asi misma para actualizar lo que se ve en pantalla
         mostrarInfo(listaListos, listaActual, listaEjecucion, listaTerminados, listaBloqueados);
     }
 }
@@ -368,7 +369,7 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
 void Menu::tablaInformacion(vector<Proceso>& listaTerminados){
     system("cls");
     cout<<"ID            Ope                 Res         TME   TLlegada   TFinalizacion     TServicio   TEspera   TRetorno   TRespuesta"<<endl;
-    
+
     for(Proceso proceso : listaTerminados){
         cout<<proceso.toString()<<endl;
     }

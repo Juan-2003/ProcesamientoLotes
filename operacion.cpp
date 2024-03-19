@@ -1,7 +1,6 @@
 #include <iostream>
 #include "operacion.h"
 #include <math.h>
-#include <iomanip>
 
 using namespace std;
 
@@ -70,4 +69,3 @@ string Operacion::crearResultado(float operando1, float operando2, char operador
 string Operacion::toString(){
     return to_string(operando1) +" " + operador +" " + to_string(operando2) +" = "+ resultado;
 }
-

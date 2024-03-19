@@ -10,7 +10,7 @@ Proceso::Proceso(){
     setTR(0);
     setTTbloqueado(0);
     setTEspera(0);
-    
+    setTLL(0);
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int TT, int TR){
@@ -22,6 +22,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTR(TME);
     setTTbloqueado(0);
     setTEspera(0);
+    setTLL(0);
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int idLote){
@@ -34,6 +35,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTR(TME);
     setTTbloqueado(0);
     setTEspera(0);
+    setTLL(0);
 }
 
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
@@ -44,6 +46,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setTT(0);
     setTR(TME);
     setTEspera(0);
+    setTLL(0);
 }
 
 //SETTERS
@@ -187,5 +190,5 @@ string Proceso::toString(){
         to_string(TServicio)+"            "+
         to_string(TEspera)+"        "+
         to_string(TRetorno)+"        "+
-        to_string(TRespuesta);
+        to_string(TRespuesta)+ "\n";
 }

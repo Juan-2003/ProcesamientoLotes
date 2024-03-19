@@ -18,5 +18,4 @@ class Menu{
     public:
         static void iniciarMenu();
 };
-
 #endif // MENU_H_INCLUDED
