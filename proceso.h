@@ -21,6 +21,7 @@ class Proceso{
         int TEspera;
         int TRetorno;
         int TRespuesta;
+        std::string estadoActual;
 
     public:
         Proceso();
@@ -41,6 +42,7 @@ class Proceso{
         void setTEspera(int);
         void setTRetorno(int);
         void setTRespuesta(int);
+        void setEstadoActual(std::string);
 
         std::string getNombre();
         Operacion& getOperacion();
@@ -56,11 +58,13 @@ class Proceso{
         int getTEspera();
         int getTRetorno();
         int getTRespuesta();
+        std::string getEstadoActual();
 
         std::string loteActual();
         std::string terminados();
         std::string ejecucion();
         std::string bloqueado();
+        std::string BCP();
         std::string toString();
 };
 #endif

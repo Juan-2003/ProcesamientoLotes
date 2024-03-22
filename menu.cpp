@@ -60,170 +60,51 @@ void Menu::fin(vector<Proceso>& terminados){
 
 }
 
-/*void Menu::mostrarInfo(vector<Proceso>& listaListos) {
-    int TME_cont;
-    int TT_cont;
-    int actualTR;
-    vector<Proceso> listaActual;
-    vector<Proceso> listaEjecucion;
-    vector<Proceso> listaTerminados;
-    vector<Proceso> listaBloqueados;
-
-    if(listaListos.size() > 4){//Cuando la lista tenga mas de 4 procesos
-        listaActual.assign(listaListos.begin(),listaListos.begin()+4);
-        listaListos.erase(listaListos.begin(),listaListos.begin() + 4);
-    }else{//Cuando la lista tenga menos de 4 procesos
-        listaActual.assign(listaListos.begin(),listaListos.end());
-        listaListos.erase(listaListos.begin(),listaListos.end());
-    }
-
-    cout<<"LISTA ACTUAL:  "<<listaActual.size()<<endl;
-    for(Proceso& proceso: listaActual){
-        proceso.setTLL(0);
-    }
-
-
-
-        for (int j = 0; listaActual.size() != 0; j++) {
-            system("cls");
-            cout<<"Nuevos: "<<listaListos.size()<<endl;
-
-            // -------------  LOTE ACTUAL -----------------------
-            cout << endl << "       LOTE ACTUAL" << endl;
-            TME_cont = listaActual[0].getTME();//Se toma TME del proceso actual
-            TT_cont = listaActual[0].getTT();//SE TOMA TT del proceso actual
-            cout<<"TT: "<<TT_cont<<endl;
-
-            for(int x=0;x<listaActual.size();x++){
-                cout<<listaActual[x].loteActual()<<endl;
-            }
-            listaEjecucion.push_back(listaActual[0]);
-            listaActual.erase(listaActual.begin()); //Se esta eliminando el primer elemento de la lista
-
-
-            // ---------------- EJECUCION -----------------------------
-            cout << "       EJECUCION" << endl;
-            cout<<listaEjecucion[0].ejecucion() << endl;
-
-            // Bucle para decrementar TR y mostrar su valor
-            char tecla;
-            bool bandera= false;
-            bool bandera2 = false;
-            actualTR = listaEjecucion[0].getTR();
-            listaEjecucion[0].setTRespuesta(contadorGlobal+1);//Se establece el tiempo de llegada
-            while (actualTR >=0) {
-                contadorGlobal++;
-                cout << "\rTME: " << TME_cont << " TR: " << actualTR << " TT: " << TT_cont << " Contador: "<< contadorGlobal<< flush;
-                Sleep(1000);
-                --actualTR;
-                ++TT_cont;// Incrementa TT
-
-
-                if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
-                    tecla = _getch(); //Lo que se tecleo lo guardo en tecla
-                    comandos(listaEjecucion, listaBloqueados, tecla);
-                    /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
-                        'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores
-                        del proceso, se toma la ultima posicion de la listaActual
-
-                    if(tecla == 'e'){
-                        listaBloqueados[0].setTR(actualTR);
-                        listaBloqueados[0].setTT(TT_cont);
-                        bandera = true;
-                        bandera2 = true;
-                        break;
-                    }
-                    else if(tecla == 'w'){
-                        listaEjecucion[0].setTR(actualTR);
-                        listaEjecucion[0].setTT(actualTR);
-                        break;
-                    }
-                }
-                for(int i = 0; i < listaBloqueados.size(); i++){
-                    listaBloqueados[i].setTTbloqueado(listaBloqueados[i].getTTbloqueado()+1);
-                    if(listaBloqueados[i].getTTbloqueado()==8){
-                        listaActual.push_back(listaBloqueados[i]);
-                        listaBloqueados[i].setTTbloqueado(0);
-                        listaBloqueados.pop_back();
-                        bandera2 = true;
-                        break;
-                    }
-                }
-            }
-
-            cout <<endl<< "       BLOQUEADOS" << endl;
-            cout<<"ID"<<"   "<<"TT"<<endl;
-            for(int i = 0; i < listaBloqueados.size(); i++){
-                cout<<listaBloqueados[i].bloqueado()<<endl;
-            }
-
-            if(bandera2){//Esta bandera es para que cortar el ciclo, y que se pueda llamar a la otra funcion para actualizar lo que hay visualmente en la pantalla
-                cout<<"Entro a la bandera"<<endl;
-                break;
-            }
-            if(!bandera){//Si no se ha presionado la tecla 'e', se quitara lo que hay en la lista de ejecucion
-                listaEjecucion[0].setTFinalizacion(contadorGlobal);
-                listaEjecucion[0].setTRetorno(listaEjecucion[0].getTFinalizacion() - listaEjecucion[0].getTLL());
-                listaEjecucion[0].setTServicio(listaEjecucion[0].getTME());
-                listaEjecucion[0].setTEspera(listaEjecucion[0].getTRetorno() - listaEjecucion[0].getTServicio());
-                listaTerminados.push_back(listaEjecucion[0]);
-                listaEjecucion.pop_back();
-                listaListos[0].setTLL(contadorGlobal);
-                if(listaListos.size() > 0){
-                    listaActual.push_back(listaListos[0]);
-                    listaListos.pop_back();
-                }
-            }
-
-
-            cout<<"\n\n       TERMINADO"<<endl;
-            cout<<"ID        OPE                RES        NL"<<endl;
-            for(int z=0;z<listaTerminados.size();z++){
-                cout<<listaTerminados[z].terminados()<<endl;
-                if((z+1) % 4 == 0){
-                    cout<<"--------------------------"<<endl;
-                }
-            }
-            Sleep(1000);
-
-        }
-    //tablaInformacion(listaTerminados);
-    prueba(listaListos, listaActual, listaEjecucion, listaTerminados, listaBloqueados);//Este metodo es para actualizar lo que hay en patalla
-    //fin(listaTerminados);
-}*/
-
-void Menu::comandos(vector<Proceso>& listaEjecucion, vector<Proceso>& listaBloqueados, char tecla) {
-    //cout<<
+void Menu::comandos(vector<Proceso>& listaListos, vector<Proceso>& listaActual, vector<Proceso>& listaEjecucion, vector<Proceso>& listaBloqueados, vector<Proceso>& listaTerminados, char tecla) {
+    char otraTecla;
     switch(tecla) {
         case 'w': //Interrupcion
             listaEjecucion[0].getOperacion().setResultado("ERROR"); //El resultado se modifica, debe aparecer ERROR o algo asi, solo queda eso.
             break;
         case 'p': //Pausa
-            char otraTecla;
             do {
                 if(_kbhit()) {
                     otraTecla = _getch(); //Se guarda la tecla seleccionada
                 }
             } while(otraTecla != 'c'); //El programa seguira pausado mientras no se haga click en 'c'
             break;
-        case 'e':
 
+        case 'e': //El proceso se va a Bloqueados
             listaBloqueados.insert(listaBloqueados.end(),listaEjecucion[0]);
-            cout<<endl<<"LISTA BLOQUEADOS: "<<endl;
-            for(int i = 0; i < listaBloqueados.size(); i++){
-                cout<<listaBloqueados[i].getId()<<endl;
-            }
-            system("pause");
+            listaBloqueados[listaBloqueados.size()-1].setEstadoActual("Bloqueado"); //Se establece a la ultima posicion del vector el estado actual de 'Bloqueado'
             listaEjecucion.pop_back();
+            break;
+
+        case 'n':
+            if(listaActual.size() < 4){//En caso que listaActual tenga menos de 4 el proceso entrara directamente
+                listaActual.push_back(crearProceso());
+            }else{//Si LActual tiene 4 o mas, el proceso se va a listos.
+                listaListos.push_back(crearProceso());
+            }
+            break;
+        
+        case 'b':
+            mostrarBCP(listaListos, listaActual, listaEjecucion, listaBloqueados, listaTerminados);
+            do {
+                if(_kbhit()) {
+                    otraTecla = _getch(); //Se guarda la tecla seleccionada
+                }
+            } while(otraTecla != 'c'); //El programa seguira pausado mientras no se haga click en 'c'
             break;
     }
 }
 
-void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActual, vector<Proceso>& listaEjecucion, vector<Proceso>& listaTerminados, vector<Proceso>& listaBloqueados){
+void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActual, vector<Proceso>& listaEjecucion, vector<Proceso>& listaBloqueados, vector<Proceso>& listaTerminados){
     int TME_cont;
     int TT_cont;
     int actualTR;
     static bool jala1=true;
+
     if(jala1){
         if(listaListos.size() > 4){//Cuando la lista tenga mas de 4 procesos
             listaActual.assign(listaListos.begin(),listaListos.begin()+4);
@@ -234,10 +115,6 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
         }
         jala1=false;
     }
-
-    /*for(Proceso& proceso: listaActual){//El tiempo de llegada se establece en 0 para todos los procesos
-        proceso.setTLL(0);
-    }*/
 
 
     for (int j = 0; listaActual.size() != 0; j++) {
@@ -251,6 +128,7 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
 
         for(int x=0;x<listaActual.size();x++){
             cout<<listaActual[x].loteActual()<<endl;
+            listaActual[x].setEstadoActual("Listo"); //A cada proceso se le aasigna el estado en el que esta 'Listo'.
         }
 
         if(listaEjecucion.empty()){
@@ -261,8 +139,9 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
 
         // ---------------- EJECUCION -----------------------------
         cout << "       EJECUCION" << endl;
+        listaEjecucion[0].setEstadoActual("Ejecucion");//Se le asigna el estado acutal de 'Ejecucion'
         cout<<listaEjecucion[0].ejecucion() << endl;
-
+        
         // Bucle para decrementar TR y mostrar su valor
         char tecla;
         bool bandera= false;
@@ -281,11 +160,10 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
 
             if(_kbhit()){ //Mientras los contadores avanzan se verifica si se tecleo algo
                 tecla = _getch(); //Lo que se tecleo lo guardo en tecla
-                comandos(listaEjecucion, listaBloqueados, tecla);
+                comandos(listaListos,listaActual, listaEjecucion, listaBloqueados, listaTerminados, tecla);
                 /* En la funcion "comandos" se esta haciendo pop a la lista de ejecucion cuando se usa
                     'e' y se inserta ese proceso en listaActual, por lo que para establecer bien los valores
                     del proceso, se toma la ultima posicion de la listaActual*/
-
                 if(tecla == 'e'){
                     listaBloqueados[listaBloqueados.size() - 1].setTR(actualTR);
                     listaBloqueados[listaBloqueados.size() - 1].setTT(TT_cont);
@@ -300,6 +178,11 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
                     for(int i = 0; i < listaActual.size(); i++){
                         listaActual[i].setTEspera(listaActual[i].getTEspera() + tiempoEspera);
                     }
+                    break;
+                }
+                else if(tecla == 'n'){
+                    bandera = true;
+                    bandera2 = true;
                     break;
                 }
             }
@@ -341,14 +224,14 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
             listaTerminados.push_back(listaEjecucion[0]);
             listaEjecucion.pop_back();
             listaListos[0].setTLL(contadorGlobal);
-            if(listaListos.size() > 0){//Cuando se saque a un proceso de listaEjecucion, se añadira uno nuevo a la lista actual siempre y cuando lista listos aun tenga procesos
+            if(listaListos.size() > 0){//Cuando se saque a un proceso de listaEjecucion, se aï¿½adira uno nuevo a la lista actual siempre y cuando lista listos aun tenga procesos
                 listaActual.push_back(listaListos[0]);
                 listaListos.pop_back();
             }
 
         }
 
-
+        listaTerminados[listaTerminados.size() - 1].setEstadoActual("Terminado"); //A la ultima posicion se le asigna el estado de 'Terminado'
         cout<<"\n\n       TERMINADO"<<endl;
         cout<<"ID        OPE                RES        NL"<<endl;
         for(int z=0;z<listaTerminados.size();z++){
@@ -360,19 +243,49 @@ void Menu::mostrarInfo(vector<Proceso>& listaListos, vector<Proceso>& listaActua
         Sleep(1000);
     }
     if(listaActual.size() == 0){//Cuando la lista actual este vacia, se mostrara la informacion correspondiente
-        tablaInformacion(listaTerminados);
-    }else{//Mientras que el tamaño de la lista actual sea mayor que 0, la funcion se llamara asi misma para actualizar lo que se ve en pantalla
-        mostrarInfo(listaListos, listaActual, listaEjecucion, listaTerminados, listaBloqueados);
+        //tablaInformacion(listaTerminados);
+
+    }else{//Mientras que el tamaï¿½o de la lista actual sea mayor que 0, la funcion se llamara asi misma para actualizar lo que se ve en pantalla
+        system("pause");
+        mostrarInfo(listaListos, listaActual, listaEjecucion, listaBloqueados, listaTerminados);
     }
 }
 
-void Menu::tablaInformacion(vector<Proceso>& listaTerminados){
+/*void Menu::tablaInformacion(vector<Proceso>& listaTerminados){
     system("cls");
     cout<<"ID            Ope                 Res         TME   TLlegada   TFinalizacion     TServicio   TEspera   TRetorno   TRespuesta"<<endl;
 
     for(Proceso proceso : listaTerminados){
         cout<<proceso.toString()<<endl;
     }
+}*/
+
+void Menu::mostrarBCP(vector<Proceso>& listaListos, vector<Proceso>& listaActual, vector<Proceso>& listaEjecucion, vector<Proceso>& listaBloqueados, vector<Proceso>& listaTerminados){
+    system("cls");
+    cout<<"ID      Estado Actual"<<endl;
+    for(int i = 0; i < listaEjecucion.size(); i++){
+        cout<<listaEjecucion[i].getId()<<"       "<<listaEjecucion[i].getEstadoActual()<<endl;
+    }
+
+}
+
+Proceso Menu::crearProceso(){
+    int opcionOperador,TME;
+    static int id = 0;
+    float op1, op2;
+    string nombre;
+    char operador;
+
+    id++;//Se va sumando el id
+    opcionOperador = 1+rand()%(6-1);//Operador random
+    operador = elegirOperador(opcionOperador);//Se manda a llamar la funcion 'elegirOperador'
+    op1 = 1+rand()%(1001-1);//operador 1
+    op2 = 1+rand()%(1001-1); //operador 2
+    TME = 5+rand()%(19-5); //TME
+    Operacion operacion = Operacion(op1, op2, operador); //Se crea un objeto tipo 'Operacion'
+    Proceso proceso = Proceso(nombre, operacion, id, TME);//Se crea un objeto tipo 'Proceso'
+    
+    return proceso;
 }
 
 
@@ -382,27 +295,15 @@ void Menu::iniciarMenu(){
     vector<Proceso> listaTerminados;
     vector<Proceso> listaBloqueados;
     vector<Proceso>listaProcesos;
-    int opcionOperador,TME;
-    static int id = 0;
-    float op1, op2;
-    float cantidadProcesos;
-    string nombre;
-    char operador;
+    
+    int cantidadProcesos;
     cout<<"BIENVENIDO"<<endl;
     cout<<"Ingresa la cantidad de procesos que quieres realizar: ";
     cin>>cantidadProcesos;
     srand(time(NULL));
             for(int j = 0; j < cantidadProcesos; j++){//Este 'for' controla que por cada Lote haya 4 procesos
-                id++;//Se va sumando el id
-                opcionOperador = 1+rand()%(6-1);//Operador random
-                operador = elegirOperador(opcionOperador);//Se manda a llamar la funcion 'elegirOperador'
-                op1 = 1+rand()%(1001-1);//operador 1
-                op2 = 1+rand()%(1001-1); //operador 2
-                TME = 5+rand()%(19-5); //TME
-                Operacion operacion = Operacion(op1, op2, operador); //Se crea un objeto tipo 'Operacion'
-                Proceso proceso = Proceso(nombre, operacion, id, TME, j+1);//Se crea un objeto tipo 'Proceso'
-                listaProcesos.push_back(proceso);
+                listaProcesos.push_back(crearProceso());
             }
     cin.ignore();
-    mostrarInfo(listaProcesos, listaActual, listaEjecucion, listaTerminados, listaBloqueados);
+    mostrarInfo(listaProcesos, listaActual, listaEjecucion, listaBloqueados, listaTerminados);
 }

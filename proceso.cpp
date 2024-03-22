@@ -11,6 +11,7 @@ Proceso::Proceso(){
     setTTbloqueado(0);
     setTEspera(0);
     setTLL(0);
+    estadoActual = "Nuevo";
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int TT, int TR){
@@ -23,6 +24,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTTbloqueado(0);
     setTEspera(0);
     setTLL(0);
+    estadoActual = "Nuevo";
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
             int idLote){
@@ -36,6 +38,7 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTTbloqueado(0);
     setTEspera(0);
     setTLL(0);
+    estadoActual = "Nuevo";
 }
 
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
@@ -46,7 +49,11 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setTT(0);
     setTR(TME);
     setTEspera(0);
+    setTTbloqueado(0);
+    setTEspera(0);
     setTLL(0);
+    setTLL(0);
+    estadoActual = "Nuevo";
 }
 
 //SETTERS
@@ -100,6 +107,10 @@ void Proceso::setTRetorno(int TRetorno){
 
 void Proceso::setTRespuesta(int TRespuesta){
     this->TRespuesta = TRespuesta;
+}
+
+void Proceso::setEstadoActual(string estadoActual){
+    this->estadoActual = estadoActual;
 }
 
 //GETTERS
@@ -159,7 +170,11 @@ int Proceso::getTRespuesta(){
     return TRespuesta;
 }
 
+string Proceso::getEstadoActual(){
+    return estadoActual;
+}
 
+//MANERAS DISTINTAS DE MOSTRAR INFORMACION
 string Proceso::loteActual(){
     return "ID: " + to_string(id) + "\n"+
             "TME: "+ to_string(TME)+ "   TT: "+to_string(TT)+ "\n";
@@ -176,8 +191,22 @@ string Proceso::ejecucion(){
 }
 
 string Proceso::bloqueado(){
-return to_string(id) + "    " + to_string(TTbloqueado);
+    return to_string(id) + "    " + to_string(TTbloqueado);
 }
+
+string Proceso::BCP(){
+    return to_string(id) + "    "+
+            estadoActual+ "    "+
+            operacion.getOperacion()+"     "+
+            operacion.getResultado()+"     "+
+            to_string(TLL)+"          "+
+            to_string(TFinalizacion)+"              "+
+            to_string(TRetorno)+"        "+
+            to_string(TME)+"        "+
+            to_string(TServicio)+"            "+
+            to_string(TRespuesta)+ "\n";
+}
+
 
 
 string Proceso::toString(){

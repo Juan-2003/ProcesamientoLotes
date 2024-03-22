@@ -10,11 +10,12 @@
 class Menu{
     private:
         static char elegirOperador(int opcionOperador);
-        //static void mostrarInfo(std::vector<Proceso>& listaListos);
         static void fin(std::vector<Proceso>& terminados);
-        static void comandos(std::vector<Proceso>& listaEjecucion, std::vector<Proceso>& listaActual, char tecla);
-        static void mostrarInfo(std::vector<Proceso>& listaListos, std::vector<Proceso>& listaActual, std::vector<Proceso>& listaEjecucion, std::vector<Proceso>& listaTerminados, std::vector<Proceso>& listaBloqueados);
+        static void comandos(std::vector<Proceso>& listaListos, std::vector<Proceso>& listaActual, std::vector<Proceso>& listaEjecucion, std::vector<Proceso>& listaBloqueados, std::vector<Proceso>& listaTerminados, char tecla);
+        static void mostrarInfo(std::vector<Proceso>& listaListos, std::vector<Proceso>& listaActual, std::vector<Proceso>& listaEjecucion, std::vector<Proceso>& listaBloqueados, std::vector<Proceso>& listaTerminados);
+        static Proceso crearProceso();
         static void tablaInformacion(std::vector<Proceso>& listaTerminados);
+        static void mostrarBCP(std::vector<Proceso>& listaListos, std::vector<Proceso>& listaActual, std::vector<Proceso>& listaEjecucion, std::vector<Proceso>& listaBloqueados, std::vector<Proceso>& listaTerminados);
     public:
         static void iniciarMenu();
 };
