@@ -48,11 +48,13 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setTME(TME);
     setTT(0);
     setTR(TME);
-    setTEspera(0);
+    setTFinalizacion(00000);
+    setTEspera(00000);
     setTTbloqueado(0);
-    setTEspera(0);
+    setTRetorno(000000);
+    setTRespuesta(0000000);
     setTLL(0);
-    setTLL(0);
+    setTServicio(TME);
     estadoActual = "Nuevo";
 }
 
