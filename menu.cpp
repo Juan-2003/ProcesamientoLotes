@@ -175,7 +175,6 @@ void Menu::mostrarInfo(set<Proceso*>& listaProcesosTotales, vector<Proceso*>& li
                 else if(tecla == 'n'){
                     listaEjecucion[0]->setTR(actualTR);
                     listaEjecucion[0]->setTT(TT_cont);
-                    system("pause");
                     bandera = true;
                     bandera2 = true;
                     break;
@@ -259,7 +258,7 @@ void Menu::mostrarBCP(set<Proceso*>&listaProcesosTotales){
     cout<<setw(22)<<left<<"Operacion";
     cout<<setw(15)<<left<<"Resultado";
     cout<<setw(10)<<left<<"TLL";
-    cout<<setw(15)<<left<<"TFinizacion";
+    cout<<setw(15)<<left<<"TFinalizacion";
     cout<<setw(15)<<left<<"TRetorno";
     cout<<setw(15)<<left<<"TME";
     cout<<setw(15)<<left<<"TServicio";
