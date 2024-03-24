@@ -8,9 +8,9 @@ Proceso::Proceso(){
     setTME(0);
     setTT(0);
     setTR(0);
-    setTTbloqueado(0);
+    setTTbloqueado(-1);
     setTEspera(0);
-    setTLL(0);
+    setTLL(-1);
     estadoActual = "Nuevo";
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
@@ -21,9 +21,9 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     setTME(TME);
     setTT(TT);
     setTR(TME);
-    setTTbloqueado(0);
+    setTTbloqueado(-1);
     setTEspera(0);
-    setTLL(0);
+    setTLL(-1);
     estadoActual = "Nuevo";
 }
 Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
@@ -35,9 +35,9 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME,
     this->idLote = idLote;
     setTT(0);
     setTR(TME);
-    setTTbloqueado(0);
+    setTTbloqueado(-1);
     setTEspera(0);
-    setTLL(0);
+    setTLL(-1);
     estadoActual = "Nuevo";
 }
 
@@ -48,14 +48,14 @@ Proceso::Proceso(string nombre, Operacion operacion, int id, int TME){
     setTME(TME);
     setTT(0);
     setTR(TME);
-    setTFinalizacion(00000);
-    setTEspera(00000);
-    setTTbloqueado(0);
-    setTRetorno(000000);
-    setTRespuesta(0000000);
-    setTLL(0);
+    setTFinalizacion(-1);
+    setTEspera(-1);
+    setTTbloqueado(-1);
+    setTRetorno(-1);
+    setTRespuesta(-1);
+    setTLL(-1);
     setTServicio(TME);
-    estadoActual = "Nuevo";
+    estadoActual = "Nuevo    ";
 }
 
 //SETTERS
@@ -184,7 +184,7 @@ string Proceso::loteActual(){
 
 string Proceso::terminados(){
     return to_string(id) + "    " + operacion.getOperacion()+ "  "+
-            operacion.getResultado() +"      "+ to_string(idLote);
+            operacion.getResultado();
 }
 
 string Proceso::ejecucion(){
@@ -199,12 +199,13 @@ string Proceso::bloqueado(){
 string Proceso::BCP(){
     return to_string(id) + "    "+
             estadoActual+ "    "+
+            to_string(TTbloqueado) + "       "+
             operacion.getOperacion()+"     "+
-            operacion.getResultado()+"     "+
+            operacion.getResultado()+"      "+
             to_string(TLL)+"          "+
             to_string(TFinalizacion)+"              "+
-            to_string(TRetorno)+"        "+
-            to_string(TME)+"        "+
+            to_string(TRetorno)+"              "+
+            to_string(TME)+"                "+
             to_string(TServicio)+"            "+
             to_string(TRespuesta)+ "\n";
 }

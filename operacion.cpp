@@ -50,20 +50,20 @@ string Operacion::getOperacion(){
 }
 
 string Operacion::crearResultado(float operando1, float operando2, char operador){
-    string resultado;
+    float resultado;
     switch(operador){
-        case '+': resultado = to_string(operando1 + operando2);
+        case '+': resultado = operando1 + operando2;
                 break;
-        case '-': resultado = to_string(operando1 - operando2);
+        case '-': resultado = operando1 - operando2;
                 break;
-        case '*': resultado = to_string(operando1 * operando2);
+        case '*': resultado = operando1 * operando2;
                 break;
-        case '/': resultado = to_string(operando1 / operando2);
+        case '/': resultado = operando1 / operando2;
                 break;
-        case '%': resultado = to_string(fmod(operando1,operando2));
+        case '%': resultado = fmod(operando1,operando2);
                 break;
     }
-    return resultado;
+    return to_string(resultado);
 }
 
 string Operacion::toString(){

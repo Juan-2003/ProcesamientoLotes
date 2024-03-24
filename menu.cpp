@@ -41,11 +41,12 @@ char Menu::elegirOperador(int opcionOperador){  //Servira para poder elegir el o
 
 
 
-void Menu::comandos(vector<Proceso*>&listaProcesosTotales, vector<Proceso*>&listaListos, vector<Proceso*>& listaActual, vector<Proceso*>& listaEjecucion, vector<Proceso*>& listaBloqueados, vector<Proceso*>& listaTerminados, char tecla) {
+void Menu::comandos(set<Proceso*>&listaProcesosTotales, vector<Proceso*>&listaListos, vector<Proceso*>& listaActual, vector<Proceso*>& listaEjecucion, vector<Proceso*>& listaBloqueados, vector<Proceso*>& listaTerminados, char tecla) {
     char otraTecla;
     switch(tecla) {
         case 'w': //Interrupcion
-            listaEjecucion[0]->getOperacion().setResultado("ERROR"); //El resultado se modifica, debe aparecer ERROR o algo asi, solo queda eso.
+            listaEjecucion[0]->getOperacion().setResultado("ERROR      "); 
+            listaEjecucion[0]->setEstadoActual("Error T");
             break;
         case 'p': //Pausa
             do {
@@ -81,22 +82,17 @@ void Menu::comandos(vector<Proceso*>&listaProcesosTotales, vector<Proceso*>&list
     }
 }
 
-void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>& listaListos, vector<Proceso*>& listaActual, vector<Proceso*>& listaEjecucion, vector<Proceso*>& listaBloqueados, vector<Proceso*>& listaTerminados){
+void Menu::mostrarInfo(set<Proceso*>& listaProcesosTotales, vector<Proceso*>& listaListos, vector<Proceso*>& listaActual, vector<Proceso*>& listaEjecucion, vector<Proceso*>& listaBloqueados, vector<Proceso*>& listaTerminados){
     int TME_cont;
     int TT_cont;
     int actualTR;
     static bool jala1=true;
 
-    cout<<"Size: "<<listaProcesosTotales.size();
-    system("pause");
-
     if(!listaListos.empty()){
         for(int i=0;i<listaListos.size();i++){
-            listaProcesosTotales.push_back(listaListos[i]);
+            listaProcesosTotales.insert(listaListos[i]);
         }
     }
-
-
 
     if(jala1){
         if(listaListos.size() > 4){//Cuando la lista tenga mas de 4 procesos
@@ -110,20 +106,18 @@ void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>&
     }
 
 
-
-
     for (int j = 0; listaActual.size() != 0; j++) {
         system("cls");
         cout<<"Nuevos: "<<listaListos.size()<<endl;
 
         // -------------  LOTE ACTUAL -----------------------
         cout << endl << "       LOTE ACTUAL" << endl;
-        TME_cont = listaActual[0]->getTME();//Se toma TME del proceso actual
-        TT_cont = listaActual[0]->getTT();//SE TOMA TT del proceso actual
-
         for(int x=0;x<listaActual.size();x++){
             cout<<listaActual[x]->loteActual()<<endl;
-            listaActual[x]->setEstadoActual("Listo"); //A cada proceso se le aasigna el estado en el que esta 'Listo'.
+            listaActual[x]->setEstadoActual("Listo    "); //A cada proceso se le aasigna el estado en el que esta 'Listo'.
+            if(listaActual[x]->getTLL() == -1){
+                (contadorGlobal == -1)? listaActual[x]->setTLL(contadorGlobal+1) : listaActual[x]->setTLL(contadorGlobal);
+            }
         }
 
         if(listaEjecucion.empty()){
@@ -136,6 +130,8 @@ void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>&
         cout << "       EJECUCION" << endl;
         listaEjecucion[0]->setEstadoActual("Ejecucion");//Se le asigna el estado acutal de 'Ejecucion'
         cout<<listaEjecucion[0]->ejecucion() << endl;
+        TME_cont = listaEjecucion[0]->getTME();//Se toma TME del proceso actual
+        TT_cont = listaEjecucion[0]->getTT();//SE TOMA TT del proceso actual
 
         // Bucle para decrementar TR y mostrar su valor
         char tecla;
@@ -163,33 +159,38 @@ void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>&
                     listaBloqueados[listaBloqueados.size() - 1]->setTR(actualTR);
                     listaBloqueados[listaBloqueados.size() - 1]->setTT(TT_cont);
                     listaBloqueados[listaBloqueados.size() - 1]->setEstadoActual("Bloqueado");
+                    listaBloqueados[listaBloqueados.size() - 1]->setTTbloqueado(0);
                     bandera = true;
                     bandera2 = true;
                     break;
                 }
                 else if(tecla == 'w'){
-                    listaListos[0]->setTLL(contadorGlobal);
                     listaEjecucion[0]->setTR(actualTR);
-                    listaEjecucion[0]->setTT(actualTR);
+                    listaEjecucion[0]->setTT(TT_cont);
                     for(int i = 0; i < listaActual.size(); i++){
                         listaActual[i]->setTEspera(listaActual[i]->getTEspera() + tiempoEspera);
                     }
                     break;
                 }
                 else if(tecla == 'n'){
+                    listaEjecucion[0]->setTR(actualTR);
+                    listaEjecucion[0]->setTT(TT_cont);
+                    system("pause");
                     bandera = true;
                     bandera2 = true;
                     break;
                 }
                 else if(tecla == 'b'){
-
+                    bandera = true;
+                    bandera2 = true;
+                    break;
                 }
             }
             bool bandera3 = false;
             for(int i = 0; i < listaBloqueados.size(); i++){
                 listaBloqueados[i]->setTTbloqueado(listaBloqueados[i]->getTTbloqueado()+1);
                 if(listaBloqueados[i]->getTTbloqueado()==8){
-                    listaBloqueados[i]->setTTbloqueado(0);
+                    listaBloqueados[i]->setTTbloqueado(-1);
                     listaEjecucion[0]->setTR(actualTR);
                     listaEjecucion[0]->setTT(TT_cont);
                     listaActual.push_back(listaBloqueados[i]);
@@ -222,7 +223,6 @@ void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>&
             listaEjecucion[0]->setTEspera(listaEjecucion[0]->getTRetorno() - listaEjecucion[0]->getTServicio());
             listaTerminados.push_back(listaEjecucion[0]);
             listaEjecucion.pop_back();
-            listaListos[0]->setTLL(contadorGlobal);
             if(listaListos.size() > 0){//Cuando se saque a un proceso de listaEjecucion, se a�adira uno nuevo a la lista actual siempre y cuando lista listos aun tenga procesos
                 listaActual.push_back(listaListos[0]);
                 listaListos.pop_back();
@@ -230,9 +230,11 @@ void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>&
 
         }
 
-        listaTerminados[listaTerminados.size() - 1]->setEstadoActual("Terminado"); //A la ultima posicion se le asigna el estado de 'Terminado'
+        if(listaTerminados[listaTerminados.size() - 1]->getEstadoActual() != "Error T"){
+            listaTerminados[listaTerminados.size() - 1]->setEstadoActual("Terminado"); //A la ultima posicion se le asigna el estado de 'Terminado'
+        }
         cout<<"\n\n       TERMINADO"<<endl;
-        cout<<"ID        OPE                RES        NL"<<endl;
+        cout<<"ID        OPE                RES"<<endl;
         for(int z=0;z<listaTerminados.size();z++){
             cout<<listaTerminados[z]->terminados()<<endl;
             if((z+1) % 4 == 0){
@@ -242,59 +244,50 @@ void Menu::mostrarInfo(vector<Proceso*>& listaProcesosTotales, vector<Proceso*>&
         Sleep(1000);
     }
     if(listaActual.size() == 0){//Cuando la lista actual este vacia, se mostrara la informacion correspondiente
-        //tablaInformacion(listaTerminados);
+        mostrarBCP(listaProcesosTotales);
 
     }else{//Mientras que el tama�o de la lista actual sea mayor que 0, la funcion se llamara asi misma para actualizar lo que se ve en pantalla
         mostrarInfo(listaProcesosTotales,listaListos, listaActual, listaEjecucion, listaBloqueados, listaTerminados);
     }
 }
 
-/*void Menu::tablaInformacion(vector<Proceso>& listaTerminados){
+void Menu::mostrarBCP(set<Proceso*>&listaProcesosTotales){
     system("cls");
-    cout<<"ID            Ope                 Res         TME   TLlegada   TFinalizacion     TServicio   TEspera   TRetorno   TRespuesta"<<endl;
-
-    for(Proceso proceso : listaTerminados){
-        cout<<proceso.toString()<<endl;
-    }
-}*/
-
-void Menu::mostrarBCP(vector<Proceso*>&listaProcesosTotales){
-    system("cls");
-    cout<<"ID      Estado Actual"<<endl;
-    cout<<"TAMAÑO: "<<listaProcesosTotales.size()<<endl;
     cout<<setw(5)<<left<<"ID";
     cout<<setw(10)<<left<<"Estado";
-    cout<<setw(20)<<left<<"Operacion";
+    cout<<setw(20)<<left<<"TTbloqueado";
+    cout<<setw(22)<<left<<"Operacion";
     cout<<setw(15)<<left<<"Resultado";
-    cout<<setw(15)<<left<<"TLL";
+    cout<<setw(10)<<left<<"TLL";
     cout<<setw(15)<<left<<"TFinizacion";
     cout<<setw(15)<<left<<"TRetorno";
     cout<<setw(15)<<left<<"TME";
     cout<<setw(15)<<left<<"TServicio";
     cout<<setw(15)<<left<<"TRespuesta"<<endl;
 
-    //cout<<"ID" <<"        "<<"Estado"<<"        "<<"Operacion" <<"      "<<"Resultado"<<"      " << "TLL" <<"            "<<"TFin"<< "         " << "TRetorno" <<"       "<< "TME" <<"       "<< "TServicio"<<"       "<<"TRespuesta"<<endl;
-    for(int i = 0; i < listaProcesosTotales.size(); i++){
-        //cout<<listaProcesosTotales[i]->getId()<<"       "<<listaProcesosTotales[i]->getEstadoActual()<<endl;
-        cout<<listaProcesosTotales[i]->BCP()<<endl;
+    for(auto& objeto : listaProcesosTotales){
+        cout<<objeto->BCP()<<endl;
     }
+    /*for(int i = 0; i < listaProcesosTotales.size(); i++){
+        cout<<listaProcesosTotales[i]->BCP()<<endl;
+    }*/
 
 }
 
 Proceso* Menu::crearProceso(){
     int opcionOperador,TME;
     static int id = 0;
-    float op1, op2;
+    float operando1, operando2;
     string nombre;
     char operador;
 
     id++;//Se va sumando el id
     opcionOperador = 1+rand()%(6-1);//Operador random
     operador = elegirOperador(opcionOperador);//Se manda a llamar la funcion 'elegirOperador'
-    op1 = 1+rand()%(1001-1);//operador 1
-    op2 = 1+rand()%(1001-1); //operador 2
+    operando1 = 1+rand()%(1001-1);//operador 1
+    operando2 = 1+rand()%(1001-1); //operador 2
     TME = 5+rand()%(19-5); //TME
-    Operacion operacion = Operacion(op1, op2, operador); //Se crea un objeto tipo 'Operacion'
+    Operacion operacion = Operacion(operando1, operando2, operador); //Se crea un objeto tipo 'Operacion'
     Proceso* proceso = new Proceso(nombre, operacion, id, TME);//Se crea un objeto tipo 'Proceso'
 
     return proceso;
@@ -307,7 +300,7 @@ void Menu::iniciarMenu(){
     vector<Proceso*> listaTerminados;
     vector<Proceso*> listaBloqueados;
     vector<Proceso*>listaProcesos;
-    vector<Proceso*>listaProcesosTotales;
+    set<Proceso*>listaProcesosTotales;
 
     int cantidadProcesos;
     cout<<"BIENVENIDO"<<endl;
